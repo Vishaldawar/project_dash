@@ -5,11 +5,12 @@ import plotly.graph_objects as go
 import dash  # (version 1.12.0) pip install dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 
 #app = dash.Dash(__name__)
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets) 
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # ------------------------------------------------------------------------------
 # Import and clean data (importing csv into pandas)
@@ -41,16 +42,36 @@ app.layout = html.Div([
     html.Br(),
 
     html.Div([
-        html.Div([
-            html.H3("Chloropleth Map", style={'text-align': 'center'}),
-            dcc.Graph(id='my_bee_map', figure={})
-        ],className='six columns'),
-        html.Div([
-            html.H3("Bar Plot", style={'text-align': 'center'}),
-            dcc.Graph(id='scatter_map', figure={})
-        ],className='six columns')
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H3("Chloropleth Map", style={'text-align': 'center'}),
+                    dcc.Graph(id='my_bee_map', figure={})
+                    ])
+                ], width=6),
+            dbc.Col([
+                html.Div([
+                    html.H3("Bar Plot", style={'text-align': 'center'}),
+                    dcc.Graph(id='scatter_map', figure={})
+                ])
+            ], width=6)
+        ]),
+        dbc.Row([
+            dbc.Col([
+                html.Div([
+                    html.H3("Chloropleth Map two", style={'text-align': 'center'}),
+                    dcc.Graph(id='my_bee_map_two', figure={})
+                ])
+            ], width=6),
+            dbc.Col([
+                html.Div([
+                    html.H3("Bar Plot two", style={'text-align': 'center'}),
+                    dcc.Graph(id='scatter_map_two', figure={})
+                ])
+            ], width=6)
+        ])
     ])
-],className='row')
+])
 
 
 # ------------------------------------------------------------------------------
@@ -58,7 +79,9 @@ app.layout = html.Div([
 @app.callback(
     [Output(component_id='output_container', component_property='children'),
      Output(component_id='my_bee_map', component_property='figure'),
-     Output(component_id='scatter_map', component_property='figure')],
+     Output(component_id='scatter_map', component_property='figure'),
+     Output(component_id='my_bee_map_two', component_property='figure'),
+     Output(component_id='scatter_map_two', component_property='figure')],
     [Input(component_id='slct_year', component_property='value')]
 )
 def update_graph(option_slctd):
@@ -104,7 +127,7 @@ def update_graph(option_slctd):
     #     geo=dict(scope='usa'),
     # )
 
-    return container, fig, fig1
+    return container, fig1, fig, fig, fig1
 
 
 app.css.append_css({
