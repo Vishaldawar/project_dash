@@ -24,7 +24,7 @@ print(df[:5])
 # App layout
 app.layout = html.Div([
 
-    html.H1("Web Application Dashboards with Dash", style={'text-align': 'center'}),
+    html.H1("Web Application Dashboards with Dash", style={'text-align': 'center','margin-top':20}),
 
     dcc.Dropdown(id="slct_year",
                  options=[
@@ -35,10 +35,10 @@ app.layout = html.Div([
                      {"label": "2019", "value": 2019}],
                  multi=False,
                  value=2015,
-                 style={'width': "40%"}
+                 style={'width': "40%", 'margin-left':40}
                  ),
 
-    html.Div(id='output_container', children=[]),
+    html.Div(id='output_container', children=[],style={'margin-left':70}),
     html.Br(),
 
     html.Div([
@@ -46,8 +46,8 @@ app.layout = html.Div([
             dbc.Col([
                 html.Div([
                     html.H3("Chloropleth Map", style={'text-align': 'center'}),
-                    dcc.Graph(id='my_bee_map', figure={})
-                    ])
+                    dcc.Graph(id='my_bee_map', figure={"layout" : {'height': 400,'width':550}})
+                    ],style={'text-align':'center','margin-left':70})
                 ], width=6),
             dbc.Col([
                 html.Div([
@@ -59,15 +59,15 @@ app.layout = html.Div([
         dbc.Row([
             dbc.Col([
                 html.Div([
-                    html.H3("Chloropleth Map two", style={'text-align': 'center'}),
+                    html.H3("Bar Plot two", style={'text-align': 'center'}),
                     dcc.Graph(id='my_bee_map_two', figure={})
                 ])
             ], width=6),
             dbc.Col([
                 html.Div([
-                    html.H3("Bar Plot two", style={'text-align': 'center'}),
-                    dcc.Graph(id='scatter_map_two', figure={})
-                ])
+                    html.H3("Chloropleth Map two", style={'text-align': 'center'}),
+                    dcc.Graph(id='scatter_map_two', figure={"layout" : {'height': 400,'width':550}})
+                ],style={'margin-left':70,'margin-right':30})
             ], width=6)
         ])
     ])
@@ -136,4 +136,4 @@ app.css.append_css({
 
 # ------------------------------------------------------------------------------
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(host= '0.0.0.0',debug=True)
