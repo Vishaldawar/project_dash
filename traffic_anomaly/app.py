@@ -16,9 +16,7 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # ------------------------------------------------------------------------------
 # Import and clean data (importing csv into pandas)
-df = pd.read_csv("./data_sources/traffic_data.csv",index_col=0)
-print(df.index.dtype)
-print(df[:5])
+df = pd.read_csv("./data_sources/traffic_pred2.csv",index_col=0)
 
 # ------------------------------------------------------------------------------
 # App layout
@@ -58,8 +56,9 @@ def update_graph(bank):
     dff = df.copy()
     time = '2019-05-29'
     dff = dff[dff.index >= time]
-
-    fig = px.line(dff, x=dff.index, y=bank)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=dff.index, y=dff[bank],name='Actual'))
+    fig.add_trace(go.Scatter(x=dff.index, y=dff[bank+'_pred'],name='Predicted'))
 
     return container, fig
 
